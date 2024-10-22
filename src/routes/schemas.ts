@@ -11,5 +11,10 @@ export const searchQuerySchema = Type.Object({
   tag: Type.Optional(Type.String()),
 });
 
+export const searchParamsSchema = Type.Object({
+  id: Type.Number(),
+})
+
 export type PostBodyType = Static<typeof PostBodySchema>;
 export type searchQueryType = Static<typeof searchQuerySchema>;
+export type searchParamsType = Static<typeof searchParamsSchema>;

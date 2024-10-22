@@ -2,7 +2,7 @@ import knex from "knex";
 import knexConfig from "../../knexconfig";
 
 type envType = "development" | "production";
-const env = (process.env.environment as envType) ?? "development";
+const env = (process.env.ENVIRONMENT as envType) ?? "development";
 
 export default function getKnexInstance() {
   console.log("💾 db connection initialized....");

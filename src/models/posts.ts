@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify";
-import { searchQueryType } from "../routes/schemas";
+import { searchQueryType, searchParamsType } from "../routes/schemas";
 import { User } from "./users";
 
 const TABLE_NAME = "posts";
@@ -76,12 +76,16 @@ export async function getPosts(
 
 export async function getPost(
   fastify: FastifyInstance,
-  id: number
-): Promise<Post | null> {
-  const post = await fastify.tars.from(TABLE_NAME).where({ id }).select();
+  params: searchParamsType
+): Promise<any> {
+  const post = fastify.tars
+    .from(TABLE_NAME)
+    .innerJoin("users", "users.id", "posts.user_id")
+    .where({ "posts.id": params.id })
+    .select();
 
   if (!post) return null;
-  return post[0];
+  return (await post.then()).map(formatPostDTO);
 }
 
 export async function deletePost(
